@@ -1,0 +1,48 @@
+#!/bin/bash
+
+	# Interface name
+	echo $1	
+	# Mac address	
+	ifconfig $1 | grep HWaddr | tr -s ' ' | cut -d ' ' -f5	
+	
+	flag=`ifconfig $1 | grep -c RUNNING`
+	if [ "$flag" -eq "1" ]
+	then
+		# Ip address
+		ip=`ifconfig $1 | grep -w inet | cut -d ':' -f2 | cut -d ' ' -f1`
+		echo $ip
+		# Broadcat address
+		ifconfig $1 | grep -w inet | cut -d ':' -f3 | cut -d ' ' -f1
+		# Network mask
+		ifconfig $1 | grep -w inet | cut -d ':' -f4 | cut -d ' ' -f1
+		# Default gateway
+		route | grep default | tr -s ' ' | cut -d ' ' -f2
+		# Network address
+		ck=`echo $ip | cut -d '.' -f1`	#Get the first part of the IP
+		zero=".0"
+		if [ "$ck" -le "126" ]		#Class A IP 
+		then
+			netaddr=$ck$zero$zero$zero
+			echo $netaddr
+		elif [ "$ck" -le "191" ]	#Class B IP
+		then
+			ck=`echo $ip | cut -d '.' -f1,2`
+			netaddr=$ck$zero$zero
+			echo $netaddr
+		else				#Class C IP
+			ck=`echo $ip | cut -d '.' -f1,2,3`
+			netaddr=$ck$zero
+			echo $netaddr
+		fi
+	else
+		for i in 1 2 3 4 5
+		do
+			echo Unavailable
+		done
+	fi
+
+
+
+
+
+
