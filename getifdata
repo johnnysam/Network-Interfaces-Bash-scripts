@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#This script parses and returns the data for the specified 
+#network interface that is given as an argument. If data
+#isn't found then it returns Unavailable
+
 	# Interface name
 	echo $1	
 	# Mac address	
