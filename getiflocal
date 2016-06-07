@@ -1,0 +1,4 @@
+#!/bin/bash
+
+	# grep -c prints the number of matching lines
+	ifconfig $1 | grep -c 'Local Loopback'
