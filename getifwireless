@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#iwconfig outputs to stderr so using 2>&1 runs correctly
+iwconfig $1 | grep -c 'Access Point'
